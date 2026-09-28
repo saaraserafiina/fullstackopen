@@ -1,9 +1,14 @@
 {
   "persons": [
     {
-      "name": "sdf",
-      "number": "1q23",
-      "id": "A9U8s13Xz4c"
+      "name": "saara",
+      "number": "123",
+      "id": "iYiOncK3Ogs"
+    },
+    {
+      "name": "pekka",
+      "number": "1341",
+      "id": "c9VUivJs7gw"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
