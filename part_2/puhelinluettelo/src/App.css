@@ -17,6 +17,10 @@
   }
 }
 
+.notification {
+  color: green
+}
+
 .hero {
   position: relative;
 
