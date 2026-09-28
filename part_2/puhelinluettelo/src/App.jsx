@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react'
 import Persons from  './components/Persons'
 import PersonForm from './components/PersonForm'
-import axios from 'axios'
-
+import personService from './services/persons'
 
 const App = () => {
 
@@ -14,41 +13,33 @@ const App = () => {
 
   useEffect(() => {
 
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
-        setPersons(response.data)
+    personService
+      .getAll()
+      .then(initialPersons => {
+        setPersons(initialPersons)
       })
   }, [])
 
 
   const addPerson = (event) => {
 
-
     event.preventDefault()
     const personObject = {
       name: newName,
       number: newNumber
     }
-
-    console.log("new name is", personObject)
-
     if (persons.some(person => person.name === personObject.name)) {
       window.alert(newName + ' is already added to phonebook')
       return
     }
 
-    axios
-      .post('http://localhost:3001/persons', personObject)
-      .then(response => {
-            console.log(response.data)
-            setPersons(persons.concat(response.data))
+    personService
+      .create(personObject)
+      .then(returnedPerson => {
+            setPersons(persons.concat(returnedPerson))
             setNewName('')
             setNewNumber('')
       })
-
-
-
 
   }
 
@@ -56,13 +47,23 @@ const App = () => {
     setFilter(event.target.value)
   }
 
-
-
   const handleNumberChange = (event) => {
 
     setNewNumber(event.target.value)
   }
 
+  const handleDelete = (id) => {
+
+    const person = persons.find(p => p.id === id)
+
+    if (window.confirm("Delete " + person.name + "?")) {
+      personService
+       .deletePerson(id)
+       .then(() => {
+          setPersons(persons.filter(person => person.id !== id))
+       })
+  }
+}
   
   const handleNameChange = (event) => {
 
@@ -90,7 +91,9 @@ const App = () => {
                   handleNumberChange={handleNumberChange}/>
 
       <h2>Numbers</h2>
-        <Persons persons={personsToShow} />
+        <Persons persons={personsToShow}
+        handleDelete={handleDelete}
+         />
     </div>
   )
 
