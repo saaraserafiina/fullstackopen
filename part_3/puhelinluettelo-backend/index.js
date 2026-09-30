@@ -2,6 +2,11 @@ const express = require('express')
 const app = express()
 app.use(express.json())
 
+const morgan = require('morgan')
+
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
+
+
 let persons = [
 
     {
@@ -79,7 +84,7 @@ app.post('/api/persons', (request, response) => {
   if (persons.find(person => person.name.toLocaleLowerCase() === body.name.toLocaleLowerCase())) {
     return response.status(400).json({
         error: 'name must be unique'
-    })
+    }) 
   }
 
   const person = {
@@ -98,5 +103,12 @@ app.post('/api/persons', (request, response) => {
 
 
 const PORT = 3001
+
+
+morgan.token('body', req => { 
+    return JSON.stringify(req.body) 
+})
+
+
 app.listen(PORT)
 console.log(`Server running on port ${PORT}`)
