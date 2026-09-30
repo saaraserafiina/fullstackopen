@@ -50,7 +50,9 @@
   }
 }
 
-
+body {
+  margin: 0;
+}
 
 #root {
   width: 1126px;

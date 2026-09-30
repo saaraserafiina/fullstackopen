@@ -1,6 +1,6 @@
 import Country from "./Country"
 
-const Countries = ({countries}) => {
+const Countries = ({countries, onSelect}) => {
 
     return (
 
@@ -8,8 +8,10 @@ const Countries = ({countries}) => {
             
             {countries.map(country => (
                 <Country key={country.name.common}
-                name={country.name.common} />
+                country={country}
+                onSelect={onSelect} />
             ))}
+            
         </div>
     )
 }

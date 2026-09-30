@@ -8,6 +8,7 @@ const App = () => {
 
   const [countries, setCountries] = useState([])
   const [filter, setFilter] = useState('')
+  const [showCountry, setShowCountry] = useState(null)
 
 
   useEffect(() => {
@@ -27,6 +28,11 @@ const App = () => {
   const handleFilterInput = (event) => {
     setFilter(event.target.value)
   }
+
+ const showDetails = (country) => {
+
+  setShowCountry(country)
+ }
   
 
   if (countriesToShow.length > 10) {
@@ -71,7 +77,8 @@ const App = () => {
       onChange={handleFilterInput}
       />
       
-    <Countries countries={countriesToShow} />
+    <Countries countries={countriesToShow} onSelect={showDetails}/>
+     {showCountry && <CountryDisplay country={showCountry} />}
     
     </div>
 
