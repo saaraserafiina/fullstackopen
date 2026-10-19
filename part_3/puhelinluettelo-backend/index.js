@@ -3,7 +3,8 @@ const app = express()
 app.use(express.json())
 
 const morgan = require('morgan')
-
+const cors = require('cors')
+app.use(cors())
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
 
 
