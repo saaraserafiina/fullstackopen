@@ -49,6 +49,14 @@ const App = () => {
             setNewName('')
             setNewNumber('')
           })
+          .catch(error => {
+            setNotification(error.response.data.error)
+            setNotificationType('error')
+            setTimeout(() => {
+            setNotification(null)
+            }, 2000)
+
+          })
 
       }
       return
