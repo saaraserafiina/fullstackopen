@@ -12,6 +12,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [filter, setFilter] = useState('')
   const [notification, setNotification] = useState(null)
+  const [notificationType, setNotificationType] = useState(null)
 
   useEffect(() => {
 
@@ -41,6 +42,7 @@ const App = () => {
           .then(returnedPerson => {
             setPersons(persons.map(person => person.id !== existingPerson.id ? person : returnedPerson))
             setNotification('Persons ' + personObject.name + ' number succesfully changed')
+            setNotificationType('success')
             setTimeout(() => {
             setNotification(null)
             }, 2000)
@@ -58,10 +60,18 @@ const App = () => {
         setPersons(persons.concat(returnedPerson))
         setNewName('')
         setNotification('Person ' + personObject.name + ' succesfully added')
+        setNotificationType('success')
         setTimeout(() => {
         setNotification(null)
         }, 2000)
         setNewNumber('')
+      })
+      .catch(error => {
+        setNotification(error.response.data.error)
+        setNotificationType('error')
+        setTimeout(() => {
+        setNotification(null)
+        }, 2000)
       })
 
   }
@@ -86,6 +96,7 @@ const App = () => {
           setPersons(persons.filter(person => person.id !== id))
         })
         setNotification("Person " + person.name + " succesfully deleted.")
+        setNotificationType('success')
         setTimeout(() => {
         setNotification(null)
         }, 2000)
@@ -102,7 +113,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <Notification message={notification} />
+      <Notification message={notification} type={notificationType} />
       <div>
         filter shown with
         <input value={filter}
