@@ -6,7 +6,7 @@ if (process.argv.length < 3) {
 }
 
 const password = process.argv[2]
-const name = process.argv[3];
+const name = process.argv[3]
 const number = process.argv[4]
 const url = `mongodb+srv://saaraheikkila_db_user:${password}@cluster0.polhn1k.mongodb.net/phonebook?retryWrites=true&w=majority&appName=Cluster0`
 
@@ -23,28 +23,28 @@ const Person = mongoose.model('Person', personSchema)
 const person = new Person({
   name,
   number,
-});
+})
 
 
 if (process.argv.length == 3) {
     
-    Person.find({}).then(persons => {
-        console.log("phonebook:")
-        persons.forEach(person => {
-            console.log(person.name, person.number)
-        });
+  Person.find({}).then(persons => {
+    console.log('phonebook:')
+    persons.forEach(person => {
+      console.log(person.name, person.number)
+    })
 
-        mongoose.connection.close()
-    });
+    mongoose.connection.close()
+  })
 }
 
 else {
-    person.save().then(result => {
+  person.save().then(() => {
     mongoose.connection.close()
 
     console.log(
-        `added ${person.name} number ${person.number} to phonebook.`
+      `added ${person.name} number ${person.number} to phonebook.`
     )
-})
+  })
 }
 
