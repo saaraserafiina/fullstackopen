@@ -1,0 +1,9 @@
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+    "title": "Blogi4",
+    "author": "Jari Virtanen",
+    "url": "www.jarinblogi.fi",
+    "likes": 2
+}
