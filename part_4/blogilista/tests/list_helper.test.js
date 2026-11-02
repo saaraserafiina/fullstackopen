@@ -88,7 +88,25 @@ describe('total likes', () => {
 
 })
 
+describe('favorite blog', () => {
 
+
+  test('favorite blog from multiple blogs', () => {
+    const result = listHelper.favoriteBlog(blogs)
+    assert.deepStrictEqual(result, blogs[2])
+  })
+
+  test('empty list is null', () => {
+    const result = listHelper.favoriteBlog(noBlogs)
+    assert.deepStrictEqual(result, null)
+  })
+
+  test('when list has only one blog', () => {
+    const result = listHelper.favoriteBlog(oneBlog)
+    assert.deepStrictEqual(result, oneBlog[0])
+  })
+
+})
 
 test('dummy returns one', () => {
   const blogs = []
