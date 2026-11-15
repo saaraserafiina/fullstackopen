@@ -35,15 +35,7 @@ const initialBlogs = [
     url: "http://blog.cleancoder.com/uncle-bob/2017/03/03/TDD-Harms-Architecture.html",
     likes: 0,
     __v: 0
-  },
-  {
-    _id: "5a422bc61b54a676234d17fc",
-    title: "Type wars",
-    author: "Robert C. Martin",
-    url: "http://blog.cleancoder.com/uncle-bob/2016/05/01/TypeWars.html",
-    likes: 2,
-    __v: 0
-  }  
+  }
 ]
 
 const blogsInDb = async () => {
@@ -61,10 +53,37 @@ const newBlog = {
   
 }
 
+const blogWithNoLikes =   {
+
+    title: "Type wars",
+    author: "Robert C. Martin",
+    url: "http://blog.cleancoder.com/uncle-bob/2016/05/01/TypeWars.html"  
+  
+}  
+
+const blogWithNoTitle = {
+
+  author: "John Doe",
+  url: "http://noTitleBlog.com/"
+
+}
+
+const blogWithNoUrl = {
+
+
+  title: "Blog With No Url",
+  author: "John Doe"
+
+}
+
+
 module.exports = {
 
     initialBlogs,
     blogsInDb,
-    newBlog
+    newBlog,
+    blogWithNoLikes,
+    blogWithNoTitle,
+    blogWithNoUrl
 
 }

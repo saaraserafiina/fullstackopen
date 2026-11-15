@@ -63,6 +63,53 @@ describe('adding blogs', () => {
 
     })
 
+    test('new blog can be added without likes', async() => {
+
+        const response = await api
+        .post('/api/blogs')
+        .send(helper.blogWithNoLikes)
+        .expect(201)
+        .expect('Content-Type', /application\/json/)
+
+        const blogsAtEnd = await helper.blogsInDb()
+
+        assert.strictEqual(blogsAtEnd.length, helper.initialBlogs.length +1)
+        assert.strictEqual(response.body.likes, 0)
+
+
+    })
+
+    test('new blog cannot be added without a title', async() => {
+
+        const response = await api
+        .post('/api/blogs')
+        .send(helper.blogWithNoTitle)
+        .expect(400)
+        .expect('Content-Type', /application\/json/)
+
+        const blogsAtEnd = await helper.blogsInDb()
+
+        assert.strictEqual(blogsAtEnd.length, helper.initialBlogs.length)
+
+
+    })
+
+    test('a new blog cannot be added without an url', async() => {
+
+        await api
+        .post('/api/blogs')
+        .send(helper.blogWithNoUrl)
+        .expect(400)
+        .expect('Content-Type', /application\/json/)
+
+        const blogsAtEnd = await helper.blogsInDb()
+
+        assert.strictEqual(blogsAtEnd.length, helper.initialBlogs.length)
+
+
+
+    })
+
 
 })
 
