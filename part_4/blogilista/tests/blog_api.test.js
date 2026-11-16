@@ -7,6 +7,8 @@ const api = supertest(app)
 
 const assert = require('node:assert')
 const helper = require('../utils/test_helper')
+const User = require('../models/user')
+const bcrypt = require('bcrypt')
 
 
 beforeEach(async () => {
@@ -14,6 +16,12 @@ beforeEach(async () => {
     await Blog.deleteMany({})
 
     await Blog.insertMany(helper.initialBlogs)
+
+    await User.deleteMany({})
+    const pwHash = await bcrypt.hash('sekret', 10)
+    const user = new User({ username: 'root', pwHash })
+    await user.save()
+    
 
 })
 
