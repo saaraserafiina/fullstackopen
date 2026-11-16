@@ -13,8 +13,8 @@ Content-Type: application/json
 Authorization: Bearer <token>
 
 {
-  "title": "Testing tokens",
+  "title": "Testing tokens part 3",
   "author": "Kari Korhonen",
-  "url": "http://example.com/tokens",
+  "url": "http://example.com/tokens2",
   "likes": 0
 }

@@ -9,6 +9,8 @@ const assert = require('node:assert')
 const helper = require('../utils/test_helper')
 const bcrypt = require('bcrypt')
 
+let token
+
 beforeEach(async () => {
 
     await User.deleteMany({})
@@ -16,8 +18,11 @@ beforeEach(async () => {
     const pwHash = await bcrypt.hash('sekret', 10)
     const user = new User({username: 'root', pwHash})
 
-    await user.save()
-})
+    await user
+    .save()
+
+} )
+
 
 
 describe('adding users', () => {

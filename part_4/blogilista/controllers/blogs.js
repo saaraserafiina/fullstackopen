@@ -1,15 +1,7 @@
 const blogsRouter = require('express').Router()
 const Blog = require('../models/blog')
-const User = require('../models/user')
-const jwt = require('jsonwebtoken')
+const { userExtractor } = require('../utils/middleware')
 
-const getTokenFrom = request => {
-  const authorization = request.get('authorization')
-  if (authorization && authorization.startsWith('Bearer ')) {
-    return authorization.replace('Bearer ', '')
-  }
-  return null
-}
 
 blogsRouter.get('/', async (request, response) => {
 
@@ -19,20 +11,10 @@ blogsRouter.get('/', async (request, response) => {
 
 })
 
-blogsRouter.post('/', async (request, response) => {
+blogsRouter.post('/', userExtractor, async (request, response) => {
 
+  const user = request.user
   const body = request.body
-
-  const decodedToken = jwt.verify(getTokenFrom(request), process.env.SECRET)
-  if (!decodedToken.id) {
-      return response.status(401).json({ error: 'token invalid' })
-    }
-
-  const user = await User.findById(decodedToken.id)
-
-  if (!user) {
-    return response.status(400).json({ error: 'User not found' })
-  }
 
   const blog = new Blog({
     title: body.title,
@@ -49,10 +31,28 @@ blogsRouter.post('/', async (request, response) => {
 
 })
 
-blogsRouter.delete('/:id', async (request, response) => {
+blogsRouter.delete('/:id', userExtractor, async (request, response) => {
 
-  await Blog.findByIdAndDelete(request.params.id)
-  response.status(204).end()
+  const user = request.user
+  const blog = await Blog.findById(request.params.id)
+
+  if (blog === null) {
+      return response.status(404).json({ error: 'Blog not found' })
+  }
+
+  if (blog.user === undefined) {
+    return response.status(403).json({ error: 'This blog has no creator and cannot be deleted'})
+  }
+  if (blog.user.toString() !== user.id.toString() ) {
+      return response.status(403).json({ error: 'Blog cannot be deleted by other than creator'})
+  }
+  else {
+
+      await Blog.findByIdAndDelete(request.params.id)
+      response.status(204).end()
+  }
+
+
 
 })
 
