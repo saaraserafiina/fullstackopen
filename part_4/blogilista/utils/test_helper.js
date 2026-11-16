@@ -1,5 +1,5 @@
 const Blog = require('../models/blog')
-
+const User = require('../models/user')
 
 
 const initialBlogs = [
@@ -38,6 +38,7 @@ const initialBlogs = [
   }
 ]
 
+
 const blogsInDb = async () => {
   const blogs = await Blog.find({})
   return blogs.map(blog => blog.toJSON())
@@ -50,7 +51,6 @@ const newBlog = {
     url: "https://reactpatterns.com/",
     likes: 7
   
-  
 }
 
 const blogWithNoLikes =   {
@@ -59,7 +59,7 @@ const blogWithNoLikes =   {
     author: "Robert C. Martin",
     url: "http://blog.cleancoder.com/uncle-bob/2016/05/01/TypeWars.html"  
   
-}  
+} 
 
 const blogWithNoTitle = {
 
@@ -70,12 +70,60 @@ const blogWithNoTitle = {
 
 const blogWithNoUrl = {
 
-
   title: "Blog With No Url",
   author: "John Doe"
 
 }
 
+const usersInDb = async () => {
+
+  const users = await User.find({})
+  return users.map(user => user.toJSON())
+
+}
+
+const userWithShortUsername = {
+
+  username: "xx",
+  name: "John Doe",
+  password: "salasana"
+
+}
+
+const userWithDuplicateUsername = {
+
+
+  username: "root",
+  password: "salasana1"
+
+}
+
+const userWithNoUsername = {
+
+  password: "salasana"
+
+}
+
+const userWithShortPassword = {
+
+  username: "testuser",
+  password: "xx"
+
+}
+
+const userWithNoPassword = {
+
+  username: "testuser",
+  
+
+}
+
+const validUser = {
+
+  username: "testuser",
+  name: "Test User",
+  password: "password"
+}
 
 module.exports = {
 
@@ -84,6 +132,13 @@ module.exports = {
     newBlog,
     blogWithNoLikes,
     blogWithNoTitle,
-    blogWithNoUrl
+    blogWithNoUrl,
+    usersInDb,
+    userWithDuplicateUsername,
+    userWithShortUsername,
+    userWithNoUsername,
+    userWithShortPassword,
+    userWithNoPassword,
+    validUser
 
 }
